@@ -6,6 +6,7 @@
         <title>Restaurante - Seja bem-vindo!</title>
         <link rel="stylesheet" href="./css/bootstrap.min.css">
         <link rel="stylesheet" href="./css/fontawesome.css">
+        <link rel="stylesheet" href="./css/animate.css">
         <link rel="stylesheet" href="./css/main.css">
 
         <script type="text/javascript" src="./js/jquery-1.12.4.min.js" defer></script>
@@ -18,6 +19,16 @@
     </head>
 
     <body>
+
+        <div class="container-mensagens" id="container-mensagens">
+
+        </div>
+
+        <a class="botao-carrinho hidden" onclick="cardapio.metodos.abrirCarrinho(true)">
+            <div class="badge-total-carrinho">0</div>
+            <i class="fa fa-shopping-bag"></i>
+        </a>
+
         <section class="header">
             <div class="container">
                 <nav class="navbar navbar-expand-lg pl-0 pr-0">
@@ -45,8 +56,9 @@
                                 <a href="#depoimentos" class="nav-link"><b>Depoimentos</b></a>
                             </li>
                         </ul>
-                        <a href="" class="btn btn-white btn-icon">
+                        <a class="btn btn-white btn-icon" onclick="cardapio.metodos.abrirCarrinho(true)">
                             Meu carrinho <span class="icon">
+                                <div class="container-total-carrinho badge-total-carrinho hidden">0</div>
                                 <i class="fa fa-shopping-bag"></i>
                             </span>
                         </a>
@@ -469,7 +481,7 @@
         <div class="modal-full hidden" id="modalCarrinho">
             <div class="m-header">
                 <div class="container">
-                    <a href="" class="btn btn-white btn-sm float-right">
+                    <a class="btn btn-white btn-sm float-right" onclick="cardapio.metodos.abrirCarrinho(false)">
                         Fechar
                     </a>
                     <div class="etapas">
@@ -487,22 +499,6 @@
                 <div class="container">
 
                     <div id="itensCarrinho" class="row mr-0 ml-0 hidden">
-                        
-                        <div class="col-12 item-carrinho">
-                            <div class="img-produto">
-                                <img src="./img/cardapio/burguers/burger-au-poivre-kit-4-pack.3ca0e39b02db753304cd185638dad518.jpg" alt="">
-                            </div>
-                            <div class="dados-produto">
-                                <p class="title-produto"><b>Nome do produto</b></p>
-                                <p class="price-produto"><b>R$ 149,90</b></p>
-                            </div>
-                            <div class="add-carrinho">
-                                <span class="btn-menos"><i class="fas fa-minus"></i></span>
-                                <span class="add-numero-itens">0</span>
-                                <span class="btn-mais"><i class="fas fa-plus"></i></span>
-                                <span class="btn btn-remove"><i class="fas fa-times"></i></span>
-                            </div>
-                        </div>
 
                     </div>
 
@@ -663,19 +659,19 @@
                         </p>
                     </div>
 
-                    <a href="" class="btn btn-yellow float-right" id="btnEtapaPedido">
+                    <a onclick="cardapio.metodos.carregarEtapa(2)" class="btn btn-yellow float-right" id="btnEtapaPedido">
                         Continuar
                     </a>
 
-                    <a href="" class="btn btn-yellow float-right" id="btnEtapaEndereco">
+                    <a onclick="cardapio.metodos.carregarEtapa(3)" class="btn btn-yellow float-right" id="btnEtapaEndereco">
                         Revisar pedido
                     </a>
 
-                    <a href="" class="btn btn-yellow float-right" id="btnEtapaResumo">
+                    <a class="btn btn-yellow float-right" id="btnEtapaResumo">
                         Enviar pedido
                     </a>
 
-                    <a href="" class="btn btn-white float-right mr-3" id="btnVoltar">
+                    <a onclick="cardapio.metodos.voltarEtapa()" class="btn btn-white float-right mr-3" id="btnVoltar">
                         Voltar
                     </a>
 
