@@ -10,10 +10,15 @@ var MEU_ENDERECO = null;
 var VALOR_CARRINHO = 0;
 var VALOR_ENTREGA = 5;
 
+var CELULAR_EMPRESA = '5532991636806';
+
 cardapio.eventos = {
 
     init: () => {
         cardapio.metodos.obterItensCardapio();
+        cardapio.metodos.carregarBotaoLigar();
+        cardapio.metodos.carregarBotaoWhatsapp();
+        cardapio.metodos.carregarBotaoReserva();
     }
 
 }
@@ -435,6 +440,73 @@ cardapio.metodos = {
 
         $("#resumoEndereco").html(`${MEU_ENDERECO.endereco}, ${MEU_ENDERECO.numero}, ${MEU_ENDERECO.bairro}`);
         $("#cidadeEndereco").html(`${MEU_ENDERECO.cidade}-${MEU_ENDERECO.uf} / ${MEU_ENDERECO.cep} ${MEU_ENDERECO.complemento}`);
+        
+        cardapio.metodos.finalizarPedido();
+    },
+
+    //Atualiza o link do botão do Whatsapp
+    finalizarPedido: () => {
+        if(MEU_CARRINHO.length > 0 && MEU_ENDERECO != null) {
+            var texto = 'Olá! Gostaria de fazer um pedido:';
+            texto += `\n*Itens do pedido:*\n\n\${itens}`;
+            texto += '\n*Endereço de entrega:*';
+            texto += `\n${MEU_ENDERECO.endereco}, ${MEU_ENDERECO.numero}, ${MEU_ENDERECO.bairro}`;
+            texto += `\n${MEU_ENDERECO.cidade}-${MEU_ENDERECO.uf} / ${MEU_ENDERECO.cep} ${MEU_ENDERECO.complemento}`;
+            texto += `\n\n*Total (com entrega): R$ ${(VALOR_CARRINHO + VALOR_ENTREGA).toFixed(2).replace('.', ',')}*`;
+
+            var itens = '';
+
+            $.each(MEU_CARRINHO, (i, e) => {
+                itens += `*${e.qntd}x* ${e.name} ....... R$ ${e.price.toFixed(2).replace('.', ',')} \n`
+
+                //Último item do carrinho
+                if ((i + 1) == MEU_CARRINHO.length){
+                    texto = texto.replace(/\${itens}/g, itens);
+
+                    //Converte a URL
+                    let encode = encodeURI(texto);
+                    let URL = `https://wa.me/${CELULAR_EMPRESA}?text=${encode}`;
+
+                    $("#btnEtapaResumo").attr('href', URL);
+                }
+            })
+        }
+    },
+
+    //Carrega o link do botão reserva
+    carregarBotaoReserva: () => {
+        var texto = 'Olá! Gostaria de fazer uma *reserva*.';
+
+        let encode = encodeURI(texto);
+        let URL = `https://wa.me/${CELULAR_EMPRESA}?text=${encode}`;
+
+        $("#btnReserva").attr('href', URL);
+    },
+
+    //Carrega o botão de ligar no banner
+    carregarBotaoLigar: () => {
+        $("#btnLigar").attr('href', `tel:${CELULAR_EMPRESA}`);
+    },
+
+    //Abre o depoimento
+    abrirDepoimento: (depoimento) => {
+        $("#depoimento-1").addClass('hidden');
+        $("#depoimento-2").addClass('hidden');
+        $("#depoimento-3").addClass('hidden');
+
+        $("#btnDepoimento-1").removeClass('active');
+        $("#btnDepoimento-2").removeClass('active');
+        $("#btnDepoimento-3").removeClass('active');
+
+        $("#depoimento-" + depoimento).removeClass('hidden');
+        $("#btnDepoimento-" + depoimento).addClass('active');
+
+    },
+
+    carregarBotaoWhatsapp: () => {
+        let URL = `https://wa.me/${CELULAR_EMPRESA}`;
+
+        $("#btnWhatsapp").attr('href', URL);
     },
 
     mensagem: (texto, cor = 'red', tempo = 3500) => {
