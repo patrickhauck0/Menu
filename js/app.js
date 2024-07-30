@@ -1,5 +1,11 @@
 $(document).ready(function () {
     cardapio.eventos.init();
+
+    $(".navbar-toggler").click(function () {
+        var expanded = $(this).attr("aria-expanded") === "true";
+        $(this).attr("aria-expanded", !expanded);
+        $("#navbarNavDropdown").toggleClass("show", !expanded);
+    });
 })
 
 var cardapio = {};
@@ -532,7 +538,7 @@ cardapio.metodos = {
 cardapio.templates = {
     
     item: `
-        <div class="col-3 mb-5 animated fadeInUp">
+        <div class="col-12 col-lg-3 col-md-3 col-sm-6 mb-5 animated fadeInUp">
             <div class="card card-item" id="\${id}">
                 <div class="img-produto">
                     <img src="\${img}" alt="" />
